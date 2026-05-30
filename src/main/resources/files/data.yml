@@ -1,0 +1,27 @@
+# =============================================
+# McBank Data Storage
+# DO NOT EDIT MANUALLY unless you know what you're doing
+# Version: 3.0
+# =============================================
+
+# Format:
+# players:
+#   <player-uuid>:
+#     name: <player-name>
+#     level: <loan-level>
+#     pin: <4-digit-pin-or-null>
+#     pin_locked: <true/false>
+#     pin_attempts: <number>
+#     atm_ops_date: <YYYY-MM-DD>
+#     atm_ops_count: <number>
+#     pending_notifications: []
+#     accounts:
+#       <account-number>:
+#         balance: <balance>
+#         loan: <loan-amount>
+#         loan_taken_date: <timestamp>
+#         active: <true/false>
+#         created: <timestamp>
+#         history: []
+
+players: {}

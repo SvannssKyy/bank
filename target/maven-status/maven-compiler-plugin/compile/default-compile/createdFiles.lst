@@ -1,0 +1,6 @@
+com/chkaduuu/mcbank/listeners/GUIListener.class
+com/chkaduuu/mcbank/managers/LanguageManager.class
+com/chkaduuu/mcbank/managers/ConfigManager.class
+com/chkaduuu/mcbank/managers/BankUpgradeManager.class
+com/chkaduuu/mcbank/managers/AccountManager.class
+com/chkaduuu/mcbank/McBank.class
