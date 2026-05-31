@@ -16,8 +16,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import com.chkaduuu.mcbank.McBank;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class McBankCommand implements CommandExecutor
+public class McBankCommand implements CommandExecutor, TabCompleter
 {
     private final McBank plugin;
     
@@ -121,14 +126,18 @@ public class McBankCommand implements CommandExecutor
             return true;
         }
         // FIX #2: Always show help when no args, open GUI only if they have account and we add a "open" subcommand
-// FIX #2: /bank with no args now always shows help first.
-        // Previously, players with an account never saw help - the GUI opened silently.
-        // Now /bank shows help, and /bank open (or just clicking the GUI button) opens the menu.
-        this.handleHelp(sender);
-        if (sender instanceof Player) {
-            final Player player = (Player) sender;
-            this.deliverPendingNotifications(player);
+// /bank with no args: open GUI if player has account, else show help
+        if (!(sender instanceof Player)) {
+            this.handleHelp(sender);
+            return true;
         }
+        final Player player = (Player) sender;
+        if (!this.plugin.getAccountManager().hasAccount(player.getUniqueId())) {
+            this.handleHelp(sender);
+            return true;
+        }
+        this.deliverPendingNotifications(player);
+        this.plugin.getGuiManager().openMainMenu(player);
         return true;
     }
     
@@ -934,5 +943,20 @@ public class McBankCommand implements CommandExecutor
         }
         pd.clearPendingNotifications();
         this.plugin.getAccountManager().saveData();
+    }
+
+    @Override
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
+        final List<String> cmds = Arrays.asList(
+            "help", "open", "create", "deposit", "withdraw", "cashout",
+            "transfer", "loan", "info", "history", "top", "pin"
+        );
+        if (args.length == 1) {
+            final String typed = args[0].toLowerCase();
+            return cmds.stream()
+                .filter(c -> c.startsWith(typed))
+                .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

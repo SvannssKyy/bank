@@ -182,6 +182,12 @@ public class AccountManager
             this.plugin.saveResource("files/level.yml", false);
         }
         final FileConfiguration levelConfig = (FileConfiguration)YamlConfiguration.loadConfiguration(levelFile);
+        // FIX: level.yml stores loan values as strings ("10000"), getDouble() returns 0 for strings.
+        // Use getString() and parse manually.
+        final String loanStr = levelConfig.getString("loan-and-level." + level + ".loan", null);
+        if (loanStr != null) {
+            try { return Double.parseDouble(loanStr); } catch (NumberFormatException ignored) {}
+        }
         return levelConfig.getDouble("loan-and-level." + level + ".loan", this.plugin.getConfigManager().getDefaultLoanLimit());
     }
     

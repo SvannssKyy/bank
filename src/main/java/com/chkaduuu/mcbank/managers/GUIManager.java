@@ -1,3 +1,4 @@
+
 package com.chkaduuu.mcbank.managers;
 
 import org.bukkit.ChatColor;

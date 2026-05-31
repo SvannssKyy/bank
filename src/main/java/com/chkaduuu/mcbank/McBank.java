@@ -60,6 +60,7 @@ public class McBank extends JavaPlugin
         this.getServer().getPluginManager().registerEvents((Listener)new ATMListener(this), (Plugin)this);
         this.getServer().getPluginManager().registerEvents((Listener)new PlayerJoinListener(this), (Plugin)this);
         this.getCommand("mcbank").setExecutor((CommandExecutor)this.mcBankCommand);
+        this.getCommand("mcbank").setTabCompleter(this.mcBankCommand);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null && this.configManager.isPlaceholderApiEnabled()) {
             new PlaceholderAPIHook(this).register();
             this.getLogger().info("PlaceholderAPI hooked!");
